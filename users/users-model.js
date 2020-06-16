@@ -12,7 +12,12 @@ function find() {
 }
 
 function findBy(filter) {
-  return db("users").where(filter).orderBy("id");
+  //select e.id, us.username, us.password, r.name as role from users as u, join roles as r on u.role = r.id
+  return db("users as u")
+    .select("u.id", "u.username", "u.password", "r.name as role")
+    .join("roles as r", "u.role", "r.id")
+    .where(filter)
+    .orderBy("u.id");
 }
 
 async function add(user) {
